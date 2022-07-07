@@ -7,7 +7,6 @@ import Logo from './components/Logo';
 import ImageLinkForm from './components/ImageLinkForm';
 import Rank from './components/Rank';
 import FaceRecognition from './components/FaceRecognition';
-import app from './helpers/clarifai';
 import './App.scss';
 import Clarifai from 'clarifai';
 class App extends React.Component {
@@ -25,6 +24,11 @@ class App extends React.Component {
   onSubmit = () => {
     const { input } = this.state;
 
+    const apiKey = process.env.REACT_APP_CLARIFAI_API_KEY;
+    const app = new Clarifai.App({
+      apiKey
+    });
+
     app.models.predict(Clarifai.FACE_DETECT_MODEL, input).then(
       (res) => {
         console.log('res', res);
@@ -38,7 +42,6 @@ class App extends React.Component {
 
   render() {
     const { imageUrl } = this.state;
-
     return (
       <div className="App">
         <Particles
